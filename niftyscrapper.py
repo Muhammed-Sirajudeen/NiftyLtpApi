@@ -11,14 +11,13 @@ from flask_cors import CORS
 
 def scrapper():
     
-    url="https://www.nseindia.com/"
+    url="https://economictimes.indiatimes.com/indices/nifty_50_companies"
     headers = {'User-Agent': 'Mozilla/5.0'}
     html_content = requests.get(url,headers=headers).text
     soup = BeautifulSoup(html_content, "html.parser")
-    val=soup.find_all("span",{"class":"val ltp"})
-    for i in val:
-        value=i.get_text()
-        return value
+    val=soup.find_all("div",{"id":"ltp"})
+    return val[0].get_text()
+
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
